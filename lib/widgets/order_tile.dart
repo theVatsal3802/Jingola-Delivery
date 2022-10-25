@@ -103,8 +103,12 @@ class _OrderTileState extends State<OrderTile> {
                   itemCount: widget.order.items.keys.length,
                 ),
               ),
-              Padding(
+              Container(
                 padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Row(
                   children: [
                     const Icon(
@@ -116,6 +120,36 @@ class _OrderTileState extends State<OrderTile> {
                     Expanded(
                       child: Text(
                         widget.order.location,
+                        softWrap: true,
+                        textScaleFactor: 1,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total Amount:",
+                      softWrap: true,
+                      textScaleFactor: 1,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    Chip(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      label: Text(
+                        "₹${widget.order.total}",
                         softWrap: true,
                         textScaleFactor: 1,
                         style: Theme.of(context).textTheme.headline5,
