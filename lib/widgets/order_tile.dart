@@ -103,6 +103,27 @@ class _OrderTileState extends State<OrderTile> {
                   itemCount: widget.order.items.keys.length,
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.order.location,
+                        softWrap: true,
+                        textScaleFactor: 1,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
