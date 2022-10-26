@@ -165,7 +165,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     return;
                                   }
                                   _formKey.currentState!.save();
-                                  await AuthFunctions.loginChef(
+                                  await AuthFunctions.loginDeliveryPerson(
                                     context,
                                     emailController.text.trim().toLowerCase(),
                                     passwordController.text.trim(),
