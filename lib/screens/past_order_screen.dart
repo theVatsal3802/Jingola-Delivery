@@ -14,39 +14,40 @@ class PastOrderScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("orders")
-                .where(
-                  "status",
-                  isEqualTo: "Delivered",
-                )
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              }
-              if (snapshot.data!.docs.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No past deliveries",
-                    textScaleFactor: 1,
-                    style: Theme.of(context).textTheme.headline4,
+          stream: FirebaseFirestore.instance
+              .collection("orders")
+              .where(
+                "status",
+                isEqualTo: "Delivered",
+              )
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            }
+            if (snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Text(
+                  "No past deliveries",
+                  textScaleFactor: 1,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              );
+            }
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                return OrderTile(
+                  order: Order.fromSnapshot(
+                    snapshot.data!.docs[index],
                   ),
                 );
-              }
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  return OrderTile(
-                    order: Order.fromSnapshot(
-                      snapshot.data!.docs[index],
-                    ),
-                  );
-                },
-                itemCount: snapshot.data!.docs.length,
-              );
-            }),
+              },
+              itemCount: snapshot.data!.docs.length,
+            );
+          },
+        ),
       ),
     );
   }

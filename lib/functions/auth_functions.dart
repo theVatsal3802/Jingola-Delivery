@@ -15,7 +15,7 @@ class AuthFunctions {
       if (e.code == "invalid-email") {
         msg = "Invalid email";
       } else if (e.code == "user-not-found") {
-        msg = "Accoutn not found, Ask Admin to create one";
+        msg = "Account not found, Ask Admin to create one";
       } else if (e.code == "user-disabled") {
         msg = "Your account has been disabled by admin";
       } else if (e.code == "wrong-password") {

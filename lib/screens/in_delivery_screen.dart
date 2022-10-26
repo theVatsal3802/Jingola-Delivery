@@ -5,7 +5,6 @@ import '../widgets/order_tile.dart';
 import '../models/order_model.dart';
 
 class InDeliveryScreen extends StatelessWidget {
-  static const routeName = "/in-delivery";
   const InDeliveryScreen({super.key});
 
   @override
@@ -15,41 +14,42 @@ class InDeliveryScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("orders")
-                .where(
-                  "status",
-                  isEqualTo: "In Delivery",
-                  isNotEqualTo: "Out for Delivery",
-                )
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              }
-              if (snapshot.data!.docs.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No new deliveries in progress",
-                    textScaleFactor: 1,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline4,
+          stream: FirebaseFirestore.instance
+              .collection("orders")
+              .where(
+                "status",
+                isEqualTo: "In Delivery",
+                isNotEqualTo: "Out for Delivery",
+              )
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            }
+            if (snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Text(
+                  "No new deliveries in progress",
+                  textScaleFactor: 1,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              );
+            }
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                return OrderTile(
+                  order: Order.fromSnapshot(
+                    snapshot.data!.docs[index],
                   ),
                 );
-              }
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  return OrderTile(
-                    order: Order.fromSnapshot(
-                      snapshot.data!.docs[index],
-                    ),
-                  );
-                },
-                itemCount: snapshot.data!.docs.length,
-              );
-            }),
+              },
+              itemCount: snapshot.data!.docs.length,
+            );
+          },
+        ),
       ),
     );
   }
