@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jingola_delivery">
+    package="com.jingola.jingola_delivery">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Jingola Delivery"

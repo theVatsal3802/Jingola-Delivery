@@ -1,4 +1,4 @@
-package com.example.jingola_delivery
+package com.jingola.jingola_delivery
 
 import io.flutter.embedding.android.FlutterActivity
 
