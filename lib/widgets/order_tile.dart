@@ -16,6 +16,8 @@ class OrderTile extends StatefulWidget {
 }
 
 class _OrderTileState extends State<OrderTile> {
+  String name = "";
+  String phone = "";
   Future<String> getStatus() async {
     var result = await FirebaseFirestore.instance
         .collection("orders")
@@ -23,6 +25,15 @@ class _OrderTileState extends State<OrderTile> {
         .get();
     final res = result.get("status");
     return res;
+  }
+
+  Future<void> getUserData() async {
+    final user = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.order.userId)
+        .get();
+    name = user["name"];
+    phone = user["phoneNumber"];
   }
 
   @override
@@ -157,6 +168,44 @@ class _OrderTileState extends State<OrderTile> {
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              FutureBuilder(
+                future: getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  }
+                  return Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          name,
+                          softWrap: true,
+                          textScaleFactor: 1,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        Chip(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          label: SelectableText(
+                            phone,
+                            textScaleFactor: 1,
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
